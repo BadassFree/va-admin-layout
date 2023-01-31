@@ -1,7 +1,7 @@
 /*
  * @Author: 蚊子
  * @Date: 2023-01-31 11:32:59
- * @LastEditTime: 2023-01-31 14:59:42
+ * @LastEditTime: 2023-01-31 18:07:50
  * @LastEditors: 蚊子
  * @Description: 
  * @FilePath: /va-admin-layout/vite.config.ts
@@ -11,15 +11,12 @@ import { fileURLToPath } from 'url';
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
-import DefineOptions from 'unplugin-vue-define-options/dist/vite';
+import DefineOptions from 'unplugin-vue-define-options/vite';
 import unocss from 'unocss/vite';
-
 
 export default defineConfig(configEnv => {
   const viteEnv = loadEnv(configEnv.mode, `.env.${configEnv.mode}`);
-
   const isVercel = viteEnv.VITE_IS_VERCEL === '1';
-
   return {
     resolve: {
       alias: {
@@ -50,7 +47,7 @@ export default defineConfig(configEnv => {
       : {
           lib: {
             entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-            name: 'BadassAdminLayout',
+            name: 'BadassFreeAdminLayout',
             fileName: 'index'
           },
           rollupOptions: {

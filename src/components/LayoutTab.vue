@@ -5,10 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import { CssRender } from 'css-render';
-import { computed } from 'vue-demi';
+import { CssRender } from "css-render";
+import { computed } from "vue-demi";
 
-defineOptions({ name: 'LayoutTab' });
+defineOptions({ name: "LayoutTab" });
 
 interface Props {
   /** 开启fixed布局 */
@@ -39,24 +39,35 @@ const props = withDefaults(defineProps<Props>(), {
   height: 56,
   paddingLeft: 0,
   transitionDuration: 300,
-  transitionTimingFunction: 'ease-in-out'
+  transitionTimingFunction: "ease-in-out",
 });
 
 const style = computed(() => {
-  const { fixed, top, zIndex, minWidth, height, paddingLeft, transitionDuration, transitionTimingFunction } = props;
-  const position = fixed ? 'fixed' : 'static';
-  const minWidthStyle = props.useMinWidthLayout ? `min-width: ${minWidth}px;` : '';
+  const {
+    fixed,
+    top,
+    zIndex,
+    minWidth,
+    height,
+    paddingLeft,
+    transitionDuration,
+    transitionTimingFunction,
+  } = props;
+  const position = fixed ? "fixed" : "static";
+  const minWidthStyle = props.useMinWidthLayout
+    ? `min-width: ${minWidth}px;`
+    : "";
   return `position:${position};top:${top}px;z-index:${zIndex};${minWidthStyle}height:${height}px;padding-left:${paddingLeft}px;transition-duration:${transitionDuration}ms;transition-timing-function:${transitionTimingFunction};`;
 });
 
 // css
 const { c } = CssRender();
-const cStyle = c('.admin-layout__tab', {
+const cStyle = c(".admin-layout__tab", {
   left: 0,
   flexShrink: 0,
-  boxSizing: 'border-box',
-  width: '100%',
-  transitionProperty: 'padding-left'
+  boxSizing: "border-box",
+  width: "100%",
+  transitionProperty: "padding-left",
 });
 cStyle.render();
 cStyle.mount();
