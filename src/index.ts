@@ -48,6 +48,8 @@ export interface LayoutProps {
   transitionDuration?: number;
   /** 动画过渡速度曲线 */
   transitionTimingFunction?: string;
+  /** 隐藏头部和侧边栏 */
+  hideHeaderAndSider?: boolean;
 }
 
 export default AdminLayout;

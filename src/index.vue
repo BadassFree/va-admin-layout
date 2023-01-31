@@ -1,12 +1,12 @@
 <template>
   <div class="admin-layout" :style="style">
     <layout-header
-      v-if="headerVisible"
+      v-if="showHeader"
       v-bind="commonProps"
       :fixed="fixedHeaderAndTab"
       :z-index="headerZIndex"
       :min-width="minWidth"
-      :height="headerHeight"
+      :height="currentHeaderHeight"
       :padding-left="headerPaddingLeft"
       :style="headerAndTabTransform"
     >
@@ -18,7 +18,7 @@
       :fixed="fixedHeaderAndTab"
       :z-index="tabZIndex"
       :min-width="minWidth"
-      :top="headerHeight"
+      :top="currentHeaderHeight"
       :height="tabHeight"
       :padding-left="commonPaddingLeft"
       :style="headerAndTabTransform"
@@ -26,7 +26,7 @@
       <slot name="tab"></slot>
     </layout-tab>
     <layout-sider
-      v-if="siderVisible"
+      v-if="currentSiderVisible"
       v-bind="commonProps"
       :z-index="siderZIndex"
       :width="currentSiderWidth"
@@ -108,6 +108,8 @@ interface Props {
   transitionDuration?: number;
   /** 动画过渡速度曲线 */
   transitionTimingFunction?: string;
+  /** 隐藏头部和侧边栏 */
+  hideHeaderAndSider?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -130,7 +132,8 @@ const props = withDefaults(defineProps<Props>(), {
   siderCollapsedWidth: 64,
   siderCollapse: false,
   transitionDuration: 300,
-  transitionTimingFunction: 'ease-in-out'
+  transitionTimingFunction: 'ease-in-out',
+  hideHeaderAndSider: false
 });
 
 interface Emits {
@@ -179,6 +182,11 @@ function handleClickMask() {
 
 const showMask = computed(() => props.isMobile && !siderCollapseStatus.value);
 
+/** 显示头部 */
+const showHeader = computed (() => !props.hideHeaderAndSider && props.headerVisible)
+/** 头部高度 */
+const currentHeaderHeight = computed(() => !props.hideHeaderAndSider ? props.headerHeight : 0)
+
 const siderStyle = computed(() => {
   const { transitionDuration, transitionTimingFunction } = props;
   const sStyle = `background-color:${props.maskBg};transition-duration:${transitionDuration}ms;transition-timing-function:${transitionTimingFunction};`;
@@ -186,11 +194,14 @@ const siderStyle = computed(() => {
 });
 
 /** 侧边宽度 */
+const currentSiderVisible = computed(() => {
+  return !props.hideHeaderAndSider && props.siderVisible
+})
 const currentSiderWidth = computed(() => {
   const { siderWidth, siderCollapsedWidth } = props;
   const collapseWidth = props.isMobile ? 0 : siderCollapsedWidth;
   const width = siderCollapseStatus.value ? collapseWidth : siderWidth;
-  return props.siderVisible ? width : 0;
+  return currentSiderVisible.value ? width : 0;
 });
 
 const commonPaddingLeft = computed(() => (props.isMobile ? 0 : currentSiderWidth.value));
@@ -198,13 +209,13 @@ const commonPaddingLeft = computed(() => (props.isMobile ? 0 : currentSiderWidth
 // 各子组件的属性
 const headerPaddingLeft = computed(() => (isVertical.value ? commonPaddingLeft.value : 0));
 const siderPaddingTop = computed(() =>
-  !props.isMobile && !isVertical.value && props.headerVisible ? props.headerHeight : 0
+  !props.isMobile && !isVertical.value && props.headerVisible ? currentHeaderHeight.value : 0
 );
 const contentPaddingTop = computed(() => {
   let height = 0;
   if (props.fixedHeaderAndTab) {
     if (props.headerVisible) {
-      height += props.headerHeight;
+      height += currentHeaderHeight.value;
     }
     if (props.tabVisible) {
       height += props.tabHeight;

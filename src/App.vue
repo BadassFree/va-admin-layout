@@ -1,7 +1,7 @@
 <!--
  * @Author: 蚊子
  * @Date: 2023-01-31 15:35:03
- * @LastEditTime: 2023-01-31 22:17:25
+ * @LastEditTime: 2023-01-31 23:16:04
  * @LastEditors: 蚊子
  * @Description: 
  * @FilePath: /va-admin-layout/src/App.vue
@@ -14,6 +14,7 @@
     :fixed-header-and-tab="fixedHeaderAndTab"
     :fixed-footer="fixedFooter"
     :sider-collapse="siderCollapse"
+    :hide-header-and-sider="visibleHeaderAndSider"
     @update:sider-collapse="setSiderCollapse"
   >
     <template #header>
@@ -61,6 +62,10 @@
         <span class="pr-8px">siderCollapse</span>
         <input type="checkbox" :checked="siderCollapse" @change="toggleSiderCollapse" />
       </div>
+      <div class="pt-24px">
+        <span class="pr-8px">hideHeaderAndSider</span>
+        <input type="checkbox" :checked="visibleHeaderAndSider" @change="toggleHideHeaderAndSider" />
+      </div>
     </div>
     <div v-for="i in 50" :key="i" class="text-center">{{ i }}</div>
   </admin-layout>
@@ -69,7 +74,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useBoolean } from '@/hooks';
-import AdminLayout from '../dist/index';
+// import AdminLayout from '../dist/index';
+import AdminLayout from './index.vue';
 
 type Mode = 'vertical' | 'horizontal';
 const mode = ref<Mode>('vertical');
@@ -82,6 +88,7 @@ const { bool: isMobile, toggle: toggleIsMobile } = useBoolean();
 const { bool: fixedHeaderAndTab, toggle: toggleFixedHeaderAndTab } = useBoolean(true);
 const { bool: fixedFooter, toggle: toggleFixedFooter } = useBoolean();
 const { bool: siderCollapse, setBool: setSiderCollapse, toggle: toggleSiderCollapse } = useBoolean();
+const { bool: visibleHeaderAndSider, setBool: setHideHeaderAndSider, toggle: toggleHideHeaderAndSider } = useBoolean();
 </script>
 
 <style></style>
