@@ -1,7 +1,7 @@
 <!--
  * @Author: 蚊子
  * @Date: 2023-01-31 15:35:03
- * @LastEditTime: 2023-01-31 23:16:04
+ * @LastEditTime: 2023-02-01 15:25:06
  * @LastEditors: 蚊子
  * @Description: 
  * @FilePath: /va-admin-layout/src/App.vue
@@ -74,8 +74,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useBoolean } from '@/hooks';
-// import AdminLayout from '../dist/index';
-import AdminLayout from './index.vue';
+import AdminLayout from './index';
 
 type Mode = 'vertical' | 'horizontal';
 const mode = ref<Mode>('vertical');
